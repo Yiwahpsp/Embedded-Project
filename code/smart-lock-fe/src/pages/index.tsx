@@ -1,4 +1,6 @@
 import Button from '@/components/button'
+import Status from "@/components/status"
+import LockStatus from '@/components/LockStatus'
 export default function Home() {
   return (
     <div className="">
@@ -9,6 +11,13 @@ export default function Home() {
         <Button variant='' wFull>Primary</Button>
         <Button variant='secondary' wFull>Secondary</Button>
         <Button variant='danger' wFull>Danger</Button>
+         { /*example of status */ }
+        {/* <Status type='Temp' num= {12}/>
+        <Status type='Humidity' num = {18}/> */}
+        <LockStatus type = 'lock' lockName='ชื่ออะไรดี' locklocation='บ้านแม่มึง'/>
+        <LockStatus type = 'unlock' lockName='ชื่ออะไรดี' locklocation='บ้านแม่มึง'/>
+        <LockStatus type = 'addlock' lockName='-' locklocation='-'/>
+
       </div>
     </div>
   )
