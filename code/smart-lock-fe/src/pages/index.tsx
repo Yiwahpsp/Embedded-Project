@@ -1,4 +1,5 @@
 import Button from '@/components/button'
+import LockStatus from '@/components/lock-status'
 export default function Home() {
   return (
     <div className="">
@@ -9,6 +10,9 @@ export default function Home() {
         <Button variant='' wFull>Primary</Button>
         <Button variant='secondary' wFull>Secondary</Button>
         <Button variant='danger' wFull>Danger</Button>
+        <LockStatus status={true}/>
+        <LockStatus status={false}/>
+        <LockStatus />
       </div>
     </div>
   )
