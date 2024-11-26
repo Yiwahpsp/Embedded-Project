@@ -5,7 +5,8 @@ import LockStatus from '@/components/lock-status'
 import LogCard from '@/components/log-card'
 import { Log } from '@/interfaces/log';
 import Status from "@/components/status"
-import LockStatus from '@/components/LockStatus'
+import SimpleBottomNavigation from '@/components/narvigationbar'
+
 export default function Home() {
   const mockLogs: Log[] = [
     {
@@ -50,11 +51,10 @@ export default function Home() {
          { /*example of status */ }
         {/* <Status type='Temp' num= {12}/>
         <Status type='Humidity' num = {18}/> */}
-        <LockStatus type = 'lock' lockName='ชื่ออะไรดี' locklocation='บ้านแม่มึง'/>
-        <LockStatus type = 'unlock' lockName='ชื่ออะไรดี' locklocation='บ้านแม่มึง'/>
-        <LockStatus type = 'addlock' lockName='-' locklocation='-'/>
 
+        <SimpleBottomNavigation/> 
       </div>
+      
     </div>
   )
 }
