@@ -10,10 +10,9 @@ export default function narvigationbar() {
   const [value, setValue] = React.useState(0);
 
   return (
-    <Box className = {'w-full'}
-    >
+ 
       <BottomNavigation 
-        sx={{ backgroundColor: '#fff4ea' ,  padding: '5px', }}
+        sx={{ backgroundColor: '#fff4ea' ,  padding: '8px', width :'100%' }}
         showLabels
         value={value}
         onChange={(event, newValue) => {
@@ -30,6 +29,7 @@ export default function narvigationbar() {
                
             }
           }} className='border rounded-xl '/>
+
            <BottomNavigationAction  icon={<VerticalSplitIcon sx ={{ color: value === 1 ? '#fff4ea' : '#061E3A'}}/> } 
           sx={{
             backgroundColor: value === 1 ? '#061E3A' : '#fff4ea',
@@ -37,14 +37,17 @@ export default function narvigationbar() {
               color: value === 1 ? '#fff4ea' : '#061E3A', 
             }
           }}  className='border rounded-xl '/>
+
            <BottomNavigationAction  icon={<SettingsIcon sx ={{ color: value === 2 ? '#fff4ea' : '#061E3A'}}/> } 
           sx={{
             backgroundColor: value === 2 ? '#061E3A' : '#fff4ea',
             '& .MuiBottomNavigationAction-label': {
               color: value === 2 ? '#fff4ea' : '#061E3A', 
+               
             }
           }}  className='border rounded-xl '/>
       </BottomNavigation>
-    </Box>
+    
   );
 }
+

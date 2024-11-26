@@ -28,60 +28,61 @@ const NightLightToggle = () => {
           Night Light
         </p>
 
-        <IOSSwitch checked={isNightMode} onChange={handleToggle} />
+        <Switch
+  checked={isNightMode}
+  onChange={handleToggle}
+  sx={{
+    width: 51,
+    height: 32,
+    padding: 0,
+    display: 'flex', // Helps to center the thumb perfectly
+    alignItems: 'center', // Vertically centers the thumb
+    '& .MuiSwitch-switchBase': {
+      padding: 2, // Adjusts the starting position
+      boxShadow: 'none',
+      '&.Mui-checked': {
+        transform: 'translateX(22px)', // Moves the thumb to the right edge when checked
+        '& .MuiSwitch-thumb': {
+          boxShadow: 'none',
+          backgroundColor: '#3ebdc6', // Thumb color when checked
+          border: '4px solid #fff4ea', // Border for thumb when checked
+          opacity : 1,
+          transition: 'background-color 300ms ease, border-color 300ms ease'
+        },
+        '& + .MuiSwitch-track': {
+          backgroundColor: '#fff4ea', // Track color when checked
+          border: '4px solid #fff4ea', // Border for track when checked
+          opacity : 1,
+          transition: 'background-color 300ms ease, border-color 300ms ease'
+        },
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxShadow: 'none',
+      transform: 'translateX(-15px) translateY(-14px)',
+      width: 28,
+      height: 28,
+      backgroundColor: '#fff4ea', // Default thumb color when unchecked
+      border: '4px solid #3ebdc6', // Border for thumb when unchecked
+      opacity : 1,
+      transition: 'background-color 300ms ease, border-color 300ms ease'
+    },
+    '& .MuiSwitch-track': {
+      backgroundColor: '#fff4ea', // Default track color when unchecked
+      borderRadius: 16, // Round the track
+      border: '4px solid #3ebdc6', // Border for track when unchecked
+      position: 'relative', // Ensures proper alignment with thumb
+      opacity : 1,
+      transition: 'background-color 300ms ease, border-color 300ms ease'
+    },
+  }}
+/>
+
+
       </div>
     </div>
   );
 };
 
 export default NightLightToggle;
-
-const IOSSwitch = styled(Switch)<SwitchProps>(({ theme }) => ({
-  width: 51.2,
-  height: 32,
-  padding: 0,
-
-  '& .MuiSwitch-switchBase': {
-    padding: 0,
-    margin: 1,
-    transitionDuration: '300ms',
-    '&.Mui-checked': {
-      transform: 'translateX(19px)',
-      color: '#3ebdc6',
-      '& + .MuiSwitch-track': {
-        backgroundColor: '#fff4ea',
-        opacity: 1,
-        border: '2px solid #3ebdc6',
-        borderColor: '#fff4ea',
-      },
-      '&.Mui-disabled + .MuiSwitch-track': {
-        // Add styles for disabled + checked state if needed
-      },
-    },
-    '&.Mui-focusVisible .MuiSwitch-thumb': {
-      backgroundColor: '#ffcc00', // Change thumb color when focused
-      border: '6px solid #ff9900', // Optional: Change border color too
-    },
-    '&.Mui-disabled .MuiSwitch-thumb': {
-      color: '#3ebdc6',
-      border: '6px solid #ff9900',
-     
-    },
-  },
-  '& .MuiSwitch-thumb': {
-    width: 32,
-    height: 32,
-  
-     // Default thumb color
-    border: '6px solid #3ebdc6',
-    transition: 'border 300ms ease, background-color 300ms ease',
-  },
-  '& .MuiSwitch-track': {
-    borderRadius: 16,
-    backgroundColor: '#fff4ea',
-    border: '6px solid #3ebdc6',
-    transition: 'background-color 500ms ease, border 300ms ease',
-    opacity: 1,
-  },
-}));
 
