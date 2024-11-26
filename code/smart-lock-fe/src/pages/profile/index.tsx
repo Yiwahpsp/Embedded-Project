@@ -48,7 +48,7 @@ export default function ProfilePage() {
   return (
     <div className="flex flex-col justify-center items-start gap-16 px-4 py-8 text-primary">
       <h1 className="w-full font-semibold text-2xl text-center md:text-3xl">Profile</h1>
-      <div className='flex flex-col justify-start items-start gap-14 w-full'>
+      <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col justify-start items-start gap-1 w-full">
             <p className="font-semibold text-base md:text-lg">Email:</p>
@@ -81,108 +81,110 @@ export default function ProfilePage() {
       </div>
 
       {/* Edit Email Dialog */}
-      <Dialog
-        open={isEditOpen}
-        onClose={() => {
-          setIsEditOpen(false);
-          setEmailError(''); // Reset email error when closing the dialog
-        }}
-        PaperProps={{
-          component: 'form',
-          onSubmit: handleEmailSubmit,
-          sx: {
-            borderRadius: '12px',
-            padding: '4px',
-            width: '100%',
-            maxWidth: '384px',
-            backgroundColor: '#fff4ea',
-          }
-        }}
-        className="mx-0 w-full"
-      >
-        <DialogTitle className="font-semibold text-lg md:text-xl">Change Email</DialogTitle>
-        <DialogContent>
-          <DialogContentText className="text-sm md:text-base">
-            Please enter a new email.
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="email"
-            name="email"
-            label="Email Address"
-            type="email"
-            fullWidth
-            variant="standard"
-            error={!!emailError}
-            helperText={emailError}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            wFull
-            variant=""
-            onClick={(e) => {
-              e.preventDefault();
-              setIsEditOpen(false);
-              setEmailError(''); // Reset error on cancel
-            }}
-            isSmall
-          >
-            Cancel
-          </Button>
-          <Button
-            wFull
-            type="submit"
-            variant=""
-            className=""
-            isSmall
-          >
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <div>
+        <Dialog
+          open={isEditOpen}
+          onClose={() => {
+            setIsEditOpen(false);
+            setEmailError(''); // Reset email error when closing the dialog
+          }}
+          PaperProps={{
+            component: 'form',
+            onSubmit: handleEmailSubmit,
+            sx: {
+              borderRadius: '12px',
+              padding: '4px',
+              width: '100%',
+              maxWidth: '384px',
+              backgroundColor: '#fff4ea',
+            }
+          }}
+          className="mx-0 w-full"
+        >
+          <DialogTitle className="font-semibold text-lg md:text-xl">Change Email</DialogTitle>
+          <DialogContent>
+            <DialogContentText className="text-sm md:text-base">
+              Please enter a new email.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="email"
+              name="email"
+              label="Email Address"
+              type="email"
+              fullWidth
+              variant="standard"
+              error={!!emailError}
+              helperText={emailError}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              wFull
+              variant=""
+              onClick={(e) => {
+                e.preventDefault();
+                setIsEditOpen(false);
+                setEmailError(''); // Reset error on cancel
+              }}
+              isSmall
+            >
+              Cancel
+            </Button>
+            <Button
+              wFull
+              type="submit"
+              variant=""
+              className=""
+              isSmall
+            >
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
 
-      {/* Sign-out Confirmation Dialog */}
-      <Dialog
-        open={isSignout}
-        onClose={() => setIsSignout(false)}
-        PaperProps={{
-          sx: {
-            borderRadius: '12px',
-            padding: '4px',
-            width: '100%',
-            maxWidth: '384px',
-            backgroundColor: '#fff4ea',
-          }
-        }}
-      >
-        <DialogTitle className="font-semibold text-lg md:text-xl">Confirm Sign Out</DialogTitle>
-        <DialogContent>
-          <DialogContentText className="text-sm md:text-base">
-            Are you sure you want to sign out?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            wFull
-            variant="secondary"
-            onClick={() => setIsSignout(false)}
-            isSmall
-          >
-            Cancel
-          </Button>
-          <Button
-            wFull
-            variant=""
-            onClick={handleSignOut}
-            isSmall
-          >
-            Sign Out
-          </Button>
-        </DialogActions>
-      </Dialog>
+        {/* Sign-out Confirmation Dialog */}
+        <Dialog
+          open={isSignout}
+          onClose={() => setIsSignout(false)}
+          PaperProps={{
+            sx: {
+              borderRadius: '12px',
+              padding: '4px',
+              width: '100%',
+              maxWidth: '384px',
+              backgroundColor: '#fff4ea',
+            }
+          }}
+        >
+          <DialogTitle className="font-semibold text-lg md:text-xl">Confirm Sign Out</DialogTitle>
+          <DialogContent>
+            <DialogContentText className="text-sm md:text-base">
+              Are you sure you want to sign out?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              wFull
+              variant="secondary"
+              onClick={() => setIsSignout(false)}
+              isSmall
+            >
+              Cancel
+            </Button>
+            <Button
+              wFull
+              variant=""
+              onClick={handleSignOut}
+              isSmall
+            >
+              Sign Out
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 }

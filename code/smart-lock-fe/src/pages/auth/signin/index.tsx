@@ -11,9 +11,12 @@ export default function SignIn() {
 
   // State variables for form fields
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   // State variables for validation errors
   const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
   // Function to validate form
   const validateForm = () => {
@@ -26,6 +29,15 @@ export default function SignIn() {
     } else {
       setEmailError('')
     }
+
+    // Password validation
+    if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters')
+      isValid = false
+    } else {
+      setPasswordError('')
+    }
+
     return isValid
   }
 
@@ -42,9 +54,9 @@ export default function SignIn() {
   return (
     <div className="flex flex-col justify-start items-start gap-20 mx-auto mt-20 w-full max-w-sm">
       <p className='w-full font-semibold text-4xl text-center md:text-5xl'>Smart Lock</p>
-      <div className='flex flex-col justify-start items-start gap-14 w-full'>
+      <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
         <h1 className="font-semibold text-panorama-blue text-xl md:text-2xl">Sign In to Your Account</h1>
-        <div className='flex flex-col gap-5 w-full'>
+        <div className='flex flex-col gap-5 mx-auto w-full max-w-lg'>
           <TextField
             autoFocus
             required
@@ -57,6 +69,19 @@ export default function SignIn() {
             error={!!emailError}
             helperText={emailError}
           />
+          <TextField
+            autoFocus
+            required
+            id='password'
+            variant='standard'
+            type='password'
+            label='Password'
+            className='w-full'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            error={!!passwordError}
+            helperText={passwordError}
+          />
         </div>
         <div className='flex flex-col justify-start items-end gap-1 w-full'>
           <Button
@@ -64,7 +89,7 @@ export default function SignIn() {
             onClick={handleSignIn}
             wFull
           >
-            Register
+            Sign in
           </Button>
         </div>
       </div>

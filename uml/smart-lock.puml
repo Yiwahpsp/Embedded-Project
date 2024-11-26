@@ -4,7 +4,8 @@
 class User {
   +String userId
   +String email
-  +void register(email: String)
+  +String password
+  +void register(email: String, password: String)
   +boolean authenticate(email: String): boolean
 }
 
@@ -14,6 +15,7 @@ class SmartLock {
   +boolean lockStatus
   +void lock(): void
   +boolean unlock(fingerprintId: String): boolean
+  +boolean remoteUnlock(password: String): boolean
   +boolean getLockStatus(): boolean
 }
 

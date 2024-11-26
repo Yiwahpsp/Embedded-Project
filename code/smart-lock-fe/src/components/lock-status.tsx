@@ -23,7 +23,7 @@ export default function LockStatus({
   return (
     <button
       className={`flex flex-col h-52 md:h-60 justify-between items-start border-1 border-panorama-blue p-4 border rounded-xl w-full overflow-hidden ${style} transition-all duration-300 ease-in-out`}
-      onClick={() => router.push("/lock")}
+      onClick={() => router.push("dashboard/lock")}
     >
       {status !== undefined ? (
         <div className="flex flex-col flex-wrap justify-start items-start gap-1 w-full">

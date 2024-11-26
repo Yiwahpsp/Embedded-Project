@@ -33,7 +33,7 @@ export default function LogTablePage() {
   return (
     <div className="flex flex-col justify-center items-start gap-16 px-4 py-8 text-primary">
       <h1 className="w-full font-semibold text-2xl text-center md:text-3xl">Log Status</h1>
-      <div className='flex flex-col justify-start items-start gap-4 w-full'>
+      <div className='flex flex-col justify-start items-start gap-4 mx-auto w-full max-w-lg'>
         {
           arrays.map((_, index) =>
           (

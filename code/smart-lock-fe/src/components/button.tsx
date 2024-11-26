@@ -30,14 +30,14 @@ export default function Button({
 
           <button
             type={type}
-            className={`mx-auto border-1 border max-w-sm rounded-2xl text-base md:text-lg py-2 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
+            className={`mx-auto border-1 border max-w-lg rounded-2xl text-base md:text-lg py-2 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
             onClick={onClick}
           >
             {children}
           </button>
           : <button
             type={type}
-            className={`mx-auto border-1 border max-w-sm rounded-2xl text-lg md:text-xl py-3 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
+            className={`mx-auto border-1 border max-w-lg rounded-2xl text-lg md:text-xl py-3 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
             onClick={onClick}
           >
             {children}
