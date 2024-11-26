@@ -15,7 +15,7 @@ const kanit = Kanit({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <main className="flex justify-center items-start bg-primary mx-auto w-full h-full min-h-screen">
-      <div className={`${kanit.className} ${inter.className} w-full lg:max-w-md h-full min-h-screen text-primary bg-secondary container`}>
+      <div className={`${kanit.className} ${inter.className} p-4 w-full lg:max-w-lg h-full min-h-screen text-primary bg-secondary container`}>
         <Component {...pageProps} />
       </div>
     </main>

@@ -9,7 +9,7 @@ export default function LogCard({
 }) {
   return (
     <Link
-      className="flex flex-row justify-start items-center gap-4 border-1 border-panorama-blue p-4 border rounded-xl w-full transition-all duration-300 ease-in-out"
+      className="flex flex-row justify-start items-center gap-4 border-1 border-primary p-4 border rounded-xl w-full transition-all duration-300 ease-in-out"
       href={`/log/${info.logId}`}
     >
       {
@@ -27,28 +27,28 @@ export default function LogCard({
       }
       <div className="flex flex-col flex-grow justify-start items-start gap-1 h-full">
         <div className="flex flex-row justify-start items-center gap-2 w-full">
-          <p className="font-semibold text-base sm:text-lg">Status:</p>
+          <p className="font-semibold text-base md:text-lg">Status:</p>
           {
             info.status ?
-              <div className="bg-success px-2 py-1 rounded-lg w-20 text-center text-secondary text-sm sm:text-base">Success</div>
+              <div className="bg-success px-2 py-1 rounded-lg w-20 text-center text-secondary text-sm md:text-base">Success</div>
               : <div className="bg-danger px-2 py-1 rounded-lg w-20 text-center text-secondary">Fail</div>
           }
         </div>
         {
           info.status ?
             <div className="flex flex-row justify-start items-center gap-2 w-full">
-              <p className="font-semibold text-base sm:text-lg">Scanner:</p>
-              <p className="text-sm sm:text-base">{info.fingerprintId}</p>
+              <p className="font-semibold text-base md:text-lg">Scanner:</p>
+              <p className="text-sm md:text-base">{info.fingerprintId}</p>
             </div>
             : null
         }
         <div className="flex flex-row justify-start items-center gap-2 w-full">
-          <p className="font-semibold text-base sm:text-lg">Date:</p>
-          <p className="text-sm sm:text-base">{formatDate(info.timestamp.toString())}</p>
+          <p className="font-semibold text-base md:text-lg">Date:</p>
+          <p className="text-sm md:text-base">{formatDate(info.timestamp.toString())}</p>
         </div>
         <div className="flex flex-row justify-start items-center gap-2 w-full">
-          <p className="font-semibold text-base sm:text-lg">Timestamp:</p>
-          <p className="text-sm sm:text-base">{formatTime(info.timestamp.toString())}</p>
+          <p className="font-semibold text-base md:text-lg">Timestamp:</p>
+          <p className="text-sm md:text-base">{formatTime(info.timestamp.toString())}</p>
         </div>
       </div>
     </Link>

@@ -9,7 +9,7 @@ export default function Button({
   children: React.ReactNode,
   wFull?: boolean,
   className?: string,
-  onClick?: () => void,
+  onClick?: React.MouseEventHandler<HTMLButtonElement>,
 }) {
   let style = 'border-panorama-blue bg-panorama-blue text-ambrosia-ivory'
 
@@ -21,7 +21,7 @@ export default function Button({
 
   return (
     <button 
-      className={`mx-auto border-1 border max-w-sm rounded-2xl text-xl px-7 py-4 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
+      className={`mx-auto border-1 border max-w-sm rounded-2xl text-lg md:text-xl px-7 py-4 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
       onClick={onClick}
       >
       {children}
