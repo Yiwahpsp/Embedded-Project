@@ -6,6 +6,7 @@ import LogCard from '@/components/log-card'
 import { Log } from '@/interfaces/log';
 import Status from "@/components/status"
 import SimpleBottomNavigation from '@/components/narvigationbar'
+import NightLightToggle from '@/components/nightlightstetus'
 
 export default function Home() {
   const mockLogs: Log[] = [
@@ -51,7 +52,7 @@ export default function Home() {
          { /*example of status */ }
         {/* <Status type='Temp' num= {12}/>
         <Status type='Humidity' num = {18}/> */}
-
+       < NightLightToggle/>
         <SimpleBottomNavigation/> 
       </div>
       
