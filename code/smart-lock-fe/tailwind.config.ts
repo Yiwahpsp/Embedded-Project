@@ -20,7 +20,8 @@ export default {
         'panorama-blue': '#3ebdc6',
         'sweet-aqua': '#a8ead5',
         'oxford-blue': '#0c1e38',
-        'danger': '#d05e5e'
+        'danger': '#d05e5e',
+        'success': '#639246',
       },
       container: {
         padding: {

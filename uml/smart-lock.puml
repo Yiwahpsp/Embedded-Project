@@ -10,7 +10,7 @@ class User {
 class SmartLock {
   +String smartLockId
   +String userId
-  +boolean lockStatus
+  +Boolean lockStatus
   +void lock(): void
   +boolean unlock(fingerprintImage: String): boolean
   +boolean getLockStatus(): boolean // true if locked, false if unlocked
@@ -29,9 +29,9 @@ class Log {
   +String logId
   +String fingerprintId
   +String faceImage
-  +String status
+  +boolean status
   +DateTime timestamp
-  +void createLog(fingerprintId: String, status: String, faceImage: String)
+  +void createLog(fingerprintId: String, status: boolean, faceImage: String)
   +String[] getLogs(): String[]
   +String getLog(logId: String): String
 }
