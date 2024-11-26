@@ -4,38 +4,28 @@ import { TextField } from '@mui/material'
 import Link from 'next/link'
 import Button from '@/components/button'
 import { useRouter } from 'next/navigation'
+import { emailRegex } from '@/utils/validate-utils'
 
 export default function SignIn() {
   const router = useRouter()
 
   // State variables for form fields
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
   // State variables for validation errors
   const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
 
   // Function to validate form
   const validateForm = () => {
     let isValid = true
 
     // Email validation
-    if (!/\S+@\S+\.\S+/.test(email)) {
+    if (!emailRegex.test(email)) {
       setEmailError('Invalid email address')
       isValid = false
     } else {
       setEmailError('')
     }
-
-    // Password validation
-    if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters')
-      isValid = false
-    } else {
-      setPasswordError('')
-    }
-
     return isValid
   }
 
@@ -56,6 +46,8 @@ export default function SignIn() {
         <h1 className="font-semibold text-panorama-blue text-xl md:text-2xl">Sign In to Your Account</h1>
         <div className='flex flex-col gap-5 w-full'>
           <TextField
+            autoFocus
+            required
             id='email'
             variant='standard'
             label='Email'
@@ -65,17 +57,6 @@ export default function SignIn() {
             error={!!emailError}
             helperText={emailError}
           />
-          <TextField
-            id='password'
-            variant='standard'
-            type='password'
-            label='Password'
-            className='w-full'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            error={!!passwordError}
-            helperText={passwordError}
-          />
         </div>
         <div className='flex flex-col justify-start items-end gap-1 w-full'>
           <Button
@@ -83,14 +64,8 @@ export default function SignIn() {
             onClick={handleSignIn}
             wFull
           >
-            Sign in
+            Register
           </Button>
-          <Link
-            href={'/auth/signup'}
-            className='text-sm md:text-base'
-          >
-            Don't have an account? <span className='text-panorama-blue'>Sign up</span>
-          </Link>
         </div>
       </div>
     </div>

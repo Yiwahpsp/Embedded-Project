@@ -1,54 +1,60 @@
-@startuml Simplified-Smart-Lock
+@startuml Smart-Lock
+
+' User Class - เก็บข้อมูลผู้ใช้
 class User {
+  +String userId
   +String email
-  +String password
-  +void register(email: String, password: String)
-  +boolean authenticate(password: String)
-  +boolean signout(password: String)
+  +void register(email: String)
+  +boolean authenticate(email: String): boolean
 }
 
+' SmartLock Class - เก็บข้อมูล Smart Lock
 class SmartLock {
   +String smartLockId
-  +String userId
-  +Boolean lockStatus
+  +boolean lockStatus
   +void lock(): void
-  +boolean unlock(fingerprintImage: String): boolean
-  +boolean getLockStatus(): boolean // true if locked, false if unlocked
+  +boolean unlock(fingerprintId: String): boolean
+  +boolean getLockStatus(): boolean
 }
 
-class Sensor {
+' FingerprintSensor Class - เก็บข้อมูลการสแกนนิ้ว
+class FingerprintSensor {
   +String sensorId
-  +String type // [temperature, humidity, light]
-  +String value
-  +DateTime timestamp
-  +void createData(sensorId: String, value: String)
-  +String getData(): String
+  +String fingerprintImage
+  +boolean verifyFingerprint(fingerprintImage: String): boolean
 }
 
+' FirebaseDatabase Class - เก็บข้อมูลใน Firebase
+class FirebaseDatabase {
+  +String firebaseId
+  +void storeFingerprintRecord(fingerprintId: String, status: String)
+  +void storeLog(logId: String, fingerprintId: String, status: String)
+  +void storeUser(userId: String, email: String)
+}
+
+' BlynkDatabase Class - เก็บข้อมูล Real-time เช่น Sensor Data
+class BlynkDatabase {
+  +String blynkId
+  +void storeSensorData(sensorId: String, data: String)
+  +void storeLockStatus(lockId: String, status: boolean)
+}
+
+' Log Class - เก็บข้อมูลการบันทึกการใช้งาน
 class Log {
   +String logId
   +String fingerprintId
-  +String faceImage
-  +boolean status
+  +String status
   +DateTime timestamp
-  +void createLog(fingerprintId: String, status: boolean, faceImage: String)
-  +String[] getLogs(): String[]
-  +String getLog(logId: String): String
+  +void createLog(fingerprintId: String, status: String)
 }
 
-class Fingerprint {
-  +String fingerprintId
-  +String name
-  +String fingerprintImage
-  +String smartLockId // foreign key
-  +void createFingerprint(name: String, fingerprintImage: String)
-  +void updateFingerprint(fingerprintId: String, name: String, fingerprintImage: String)
-  +void deleteFingerprint(fingerprintId: String)
-  +String[] getFingerprints(): String[]
-}
-
+' ความสัมพันธ์
 User "1..1" -- "1..1" SmartLock : owns >
-SmartLock "1" -- "0..*" Log : creates >
-SmartLock "1" -- "0..*" Sensor : contains >
-Fingerprint "1" -- "0..*" Log : logs >
+SmartLock "1" -- "1" FingerprintSensor : uses >
+SmartLock "1" -- "1" FirebaseDatabase : stores in >
+SmartLock "1" -- "1" BlynkDatabase : stores in >
+FingerprintSensor "1" -- "0..*" Log : records >
+FirebaseDatabase "1" -- "0..*" Log : stores >
+BlynkDatabase "1" -- "0..*" SensorData : stores >
+
 @enduml
