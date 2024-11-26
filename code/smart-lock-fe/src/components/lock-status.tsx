@@ -3,8 +3,13 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import EnhancedEncryptionIcon from '@mui/icons-material/EnhancedEncryption';
-
-export default function LockStatus({ status }: { status?: boolean }) {
+import { useRouter } from 'next/navigation';
+export default function LockStatus({
+  status
+}: {
+  status?: boolean
+}) {
+  const router = useRouter();
   let style = "";
 
   if (status === undefined) {
@@ -16,8 +21,9 @@ export default function LockStatus({ status }: { status?: boolean }) {
   }
 
   return (
-    <div
+    <button
       className={`flex flex-col h-52 sm:h-60 justify-between items-start border-1 border-panorama-blue p-4 border rounded-xl w-full overflow-hidden ${style} transition-all duration-300 ease-in-out`}
+      onClick={() => router.push("/lock")}
     >
       {status !== undefined ? (
         <div className="flex flex-col flex-wrap justify-start items-start gap-1 w-full">
@@ -51,6 +57,6 @@ export default function LockStatus({ status }: { status?: boolean }) {
           </>
         )}
       </div>
-    </div>
+    </button>
   );
 }

@@ -1,15 +1,17 @@
 import Image from "next/image"
 import { Log } from "@/interfaces/log"
 import { formatDate, formatTime } from "@/utils/date-time-utils"
-
+import Link from "next/link"
 export default function LogCard({
   info
 }: {
   info: Log
 }) {
-
   return (
-    <div className="flex flex-row justify-start items-center gap-4 border-1 border-panorama-blue p-4 border rounded-xl w-full transition-all duration-300 ease-in-out">
+    <Link
+      className="flex flex-row justify-start items-center gap-4 border-1 border-panorama-blue p-4 border rounded-xl w-full transition-all duration-300 ease-in-out"
+      href={`/log/${info.logId}`}
+    >
       {
         !info.faceImage ?
           <Image
@@ -49,6 +51,6 @@ export default function LogCard({
           <p className="text-sm sm:text-base">{formatTime(info.timestamp.toString())}</p>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }
