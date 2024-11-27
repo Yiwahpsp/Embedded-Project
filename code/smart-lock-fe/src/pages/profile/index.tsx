@@ -51,9 +51,9 @@ export default function ProfilePage() {
       <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col justify-start items-start gap-1 w-full">
-            <p className="font-semibold text-base md:text-lg">Email:</p>
+            <p className="font-semibold text-xl md:text-2xl">Email:</p>
             <div className="flex flex-row justify-between items-center gap-1 w-full">
-              <p className="text-sm md:text-base">{email}</p>
+              <p className="text-base md:text-lg">{email}</p>
               <button
                 onClick={(e) => {
                   e.preventDefault();
@@ -96,14 +96,14 @@ export default function ProfilePage() {
               padding: '4px',
               width: '100%',
               maxWidth: '384px',
-              backgroundColor: '#fff4ea',
+              backgroundColor: '#fafafa',
             }
           }}
           className="mx-0 w-full"
         >
           <DialogTitle className="font-semibold text-lg md:text-xl">Change Email</DialogTitle>
           <DialogContent>
-            <DialogContentText className="text-sm md:text-base">
+            <DialogContentText className="text-base">
               Please enter a new email.
             </DialogContentText>
             <TextField
@@ -112,7 +112,7 @@ export default function ProfilePage() {
               margin="dense"
               id="email"
               name="email"
-              label="Email Address"
+              label=""
               type="email"
               fullWidth
               variant="standard"
@@ -155,7 +155,7 @@ export default function ProfilePage() {
               padding: '4px',
               width: '100%',
               maxWidth: '384px',
-              backgroundColor: '#fff4ea',
+              backgroundColor: '#fafafa',
             }
           }}
         >
@@ -168,7 +168,7 @@ export default function ProfilePage() {
           <DialogActions>
             <Button
               wFull
-              variant="secondary"
+              variant="secondary"  
               onClick={() => setIsSignout(false)}
               isSmall
             >

@@ -10,13 +10,13 @@ export default {
     extend: {
       colors: {
         primary: "#061e3a",
-        secondary: "#fff4ea",
+        secondary: "#fafafa",
         transparent: 'transparent',
         current: 'currentColor',
         background: "var(--background)",
         foreground: "var(--foreground)",
         'blue-birds': '#0096d1',
-        'ambrosia-ivory': '#fff4ea',
+        'ambrosia-ivory': '#fafafa',
         'panorama-blue': '#3ebdc6',
         'sweet-aqua': '#a8ead5',
         'oxford-blue': '#0c1e38',

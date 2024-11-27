@@ -24,15 +24,15 @@ export default function LockPage() {
       <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
         <div className="flex flex-col gap-4 w-full">
           <div className="flex flex-col justify-start items-start gap-1 w-full">
-            <p className="font-semibold text-base md:text-lg">Name:</p>
+            <p className="font-semibold text-xl md:text-2xl">Name:</p>
             <div className="flex flex-row justify-between items-center gap-1 w-full">
-              <p className="text-sm md:text-base">{name}</p>
+              <p className="text-base md:text-lg">{name}</p>
             </div>
           </div>
           <div className="flex flex-col justify-start items-start gap-1 w-full">
-            <p className="font-semibold text-base md:text-lg">Location:</p>
+            <p className="font-semibold text-xl md:text-2xl">Location:</p>
             <div className="flex flex-row justify-between items-center gap-1 w-full">
-              <p className="text-sm md:text-base">{location}</p>
+              <p className="text-base md:text-lg">{location}</p>
             </div>
           </div>
         </div>
@@ -40,6 +40,10 @@ export default function LockPage() {
           <Button
             variant="secondary"
             wFull
+            onClick={(e) => {
+              e.preventDefault();
+              router.push('/dashboard/lock/edit')
+            }}
           >
             Edit
           </Button>
@@ -54,7 +58,7 @@ export default function LockPage() {
             User Fingerprint
           </Button>
           <Button
-            variant=""
+            variant="danger"
             wFull
             onClick={(e) => {
               e.preventDefault();
