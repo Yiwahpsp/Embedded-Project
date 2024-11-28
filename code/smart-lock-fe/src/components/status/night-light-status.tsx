@@ -4,26 +4,22 @@ import { border, borderColor, styled } from '@mui/system';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
 const NightLightStatus = ({
-  status
+  status,
+  handleChange
 }: {
-  status: boolean
+  status: boolean,
+  handleChange?: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
 }) => {
-  const [isNightMode, setIsNightMode] = useState(status);
-
-  const handleToggle = () => {
-    setIsNightMode(!isNightMode);
-  };
-
   return (
     <div
       className={`flex flex-row justify-between items-center w-full rounded-xl p-4 border-panorama-blue 
-        ${isNightMode
+        ${status
           ? 'bg-panorama-blue'
           : 'bg-ambrosia-ivory border'
         }`}
     >
       <div
-        className={`flex flex-row items-center gap-1 ${isNightMode ? 'text-ambrosia-ivory' : 'text-panorama-blue'}`}
+        className={`flex flex-row items-center gap-1 ${status ? 'text-ambrosia-ivory' : 'text-panorama-blue'}`}
       >
         <LightbulbIcon sx={{ fontSize: 32 }} />
         <p className='line-clamp-1 w-full font-semibold text-pretty text-xl sm:text-2xl'>
@@ -32,8 +28,8 @@ const NightLightStatus = ({
       </div>
 
       <Switch
-        checked={isNightMode}
-        onChange={handleToggle}
+        checked={status}
+        onChange={handleChange}
         sx={{
           width: 51,
           height: 32,

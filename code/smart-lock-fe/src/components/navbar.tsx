@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
@@ -12,7 +12,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 
 const NavBar = () => {
   const router = useRouter();
-  const [value, setValue] = useState(0);
+  const pathname = usePathname(); // Get the current route
 
   const isSmallScreen = useMediaQuery('(max-width:600px)');
   const isMediumScreen = useMediaQuery('(min-width:601px) and (max-width:960px)');
@@ -25,34 +25,35 @@ const NavBar = () => {
     return '28px'; // Default size
   };
 
+  // Define actions with routes and icons
   const actions = [
     { icon: <SpaceDashboardIcon />, route: '/dashboard' },
     { icon: <VerticalSplitIcon />, route: '/log' },
     { icon: <SettingsIcon />, route: '/profile' },
   ];
 
+  // Determine the active tab index based on the current route
+  const currentTab = actions.findIndex((action) => pathname?.startsWith(action.route));
+
   const renderAction = (index: number, icon: React.JSX.Element, route: string) => (
     <div
       key={index}
-      className="flex justify-center items-center w-1/3" // Ensures each action is centered and takes 1/3 width
+      className="flex justify-center items-center w-1/3" // Each item takes 1/3 width
     >
       <BottomNavigationAction
-        icon={React.cloneElement(icon, { sx: { fontSize: getIconSize, color: value === index ? '#fafafa' : '#061E3A' } })}
+        icon={React.cloneElement(icon, { sx: { fontSize: getIconSize(), color: currentTab === index ? '#fafafa' : '#061E3A' } })}
         sx={{
-          flexGrow: 1, // Ensures it stretches to fill the wrapper
-          maxWidth: '100%', // Prevents Material UI from applying default widths
-          justifyContent: 'center', // Centers the content
+          flexGrow: 1,
+          maxWidth: '100%',
+          justifyContent: 'center',
           alignItems: 'center',
           padding: '12px',
           border: '1px solid #061E3A',
-          backgroundColor: value === index ? '#061E3A' : '#fafafa',
-          '& .MuiBottomNavigationAction-label': { color: value === index ? '#fafafa' : '#061E3A' },
+          backgroundColor: currentTab === index ? '#061E3A' : '#fafafa',
+          '& .MuiBottomNavigationAction-label': { color: currentTab === index ? '#fafafa' : '#061E3A' },
         }}
         className="rounded-xl transition-all duration-300 ease-in-out"
-        onClick={() => {
-          setValue(index);
-          router.push(route);
-        }}
+        onClick={() => router.push(route)} // Navigate to the route
       />
     </div>
   );
@@ -70,11 +71,10 @@ const NavBar = () => {
           height: '100%',
         }}
         showLabels
-        value={value}
-        onChange={(_, newValue) => setValue(newValue)}
+        value={currentTab >= 0 ? currentTab : false} // Ensure value is valid
         className="transition-all duration-300 ease-in-out"
       >
-        {actions.map((action, index: number) => renderAction(index, action.icon, action.route))}
+        {actions.map((action, index) => renderAction(index, action.icon, action.route))}
       </BottomNavigation>
     </div>
   );
