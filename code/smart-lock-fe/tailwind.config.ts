@@ -32,6 +32,9 @@ export default {
           '2xl': '1rem',
         },
       },
+      screens:{
+        xs: { min: '425px' },
+      }
     },
   },
   plugins: [],

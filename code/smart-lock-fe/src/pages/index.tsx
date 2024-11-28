@@ -1,12 +1,12 @@
 'use client'
 import { useState } from 'react'
 import Button from '@/components/button'
-import LockStatus from '@/components/lock-status'
+import LockStatus from '@/components/status/lock-status'
 import LogCard from '@/components/log-card'
 import { Log } from '@/interfaces/log';
-import Status from "@/components/status"
-import SimpleBottomNavigation from '@/components/narvigationbar'
-import NightLightToggle from '@/components/nightlightstetus'
+import DHTStatus from "@/components/status/dht-status"
+import SimpleBottomNavigation from '@/components/navbar'
+import NightLightToggle from '@/components/status/night-light-status'
 
 export default function Home() {
   const mockLogs: Log[] = [

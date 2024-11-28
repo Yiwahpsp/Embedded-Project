@@ -92,6 +92,7 @@ export default function EditLockPage() {
             <div className="flex flex-row justify-between items-center gap-1 w-full">
               <TextField
                 autoFocus
+                required
                 margin="dense"
                 id="name"
                 name="name"
@@ -110,11 +111,12 @@ export default function EditLockPage() {
             <div className="flex flex-row justify-between items-center gap-1 w-full">
               <TextField
                 autoFocus
+                required
                 margin="dense"
                 id="location"
                 name="location"
                 label=""
-                type="location"
+                type="text"
                 fullWidth
                 variant="standard"
                 error={!!locationError}
@@ -126,7 +128,7 @@ export default function EditLockPage() {
         </div>
         <div className="flex flex-col justify-start items-start gap-2 w-full">
           <Button
-            variant="secondary"
+            variant=""
             wFull
             onClick={(e) => {
               e.preventDefault();

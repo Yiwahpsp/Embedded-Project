@@ -166,6 +166,7 @@ export default function FingerPrintPage() {
             id="name"
             name="name"
             label=""
+            type='text'
             fullWidth
             variant="standard"
             value={name}
@@ -215,6 +216,7 @@ export default function FingerPrintPage() {
             id="name"
             name="name"
             label=""
+            type='text'
             fullWidth
             variant="standard"
             value={name}

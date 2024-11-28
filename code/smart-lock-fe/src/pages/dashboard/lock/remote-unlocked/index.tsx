@@ -49,7 +49,7 @@ export default function RemoteUnlockedPage() {
         </div>
         <div className="flex flex-col justify-start items-start gap-6 mx-auto w-full max-w-lg">
           <div className="flex flex-col justify-start items-start gap-2 w-full" >
-            <p className='font-medium text-primary text-xl md:text-2xl'>Enter password for unlocked your smart lock</p>
+            <p className='font-medium text-lg text-primary md:text-xl'>Enter password for unlocked your smart lock</p>
             <TextField
               autoFocus
               margin="dense"
