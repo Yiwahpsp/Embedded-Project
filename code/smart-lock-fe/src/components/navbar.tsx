@@ -32,10 +32,10 @@ const NavBar = () => {
     { icon: <SettingsIcon />, route: '/profile' },
   ];
 
-  // Determine the active tab index based on the current route
-  const currentTab = actions.findIndex((action) => {
-    return pathname === action.route || pathname.startsWith(action.route + '/');
-  });
+  // Safe handling of `pathname` for determining the active tab
+  const currentTab = pathname
+    ? actions.findIndex((action) => pathname === action.route || pathname.startsWith(action.route + '/'))
+    : 0; // Default to 0 if pathname is not yet available
 
 
   const renderAction = (index: number, icon: React.JSX.Element, route: string) => (

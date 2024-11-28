@@ -12,8 +12,8 @@ export function middleware(request: NextRequest) {
   }
 
   // Restrict access to authenticated pages (e.g., '/dashboard', '/log', '/profile')
-  const protectedRoutes = ['/dashboard', '/log', '/profile'];
-  const isProtected = protectedRoutes.some((route) => pathname.startsWith(route));
+  // const protectedRoutes = ['/dashboard', '/log', '/profile'];
+  // const isProtected = protectedRoutes.some((route) => pathname.startsWith(route));
 
   // Example: Add authentication logic
   // const isAuthenticated = request.cookies.get('auth-token'); // Replace with your logic
