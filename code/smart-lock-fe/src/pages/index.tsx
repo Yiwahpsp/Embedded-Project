@@ -5,16 +5,8 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if the current path is not '/dashboard'
-    if (router.pathname !== '/dashboard') {
-      // Redirect to '/dashboard'
-      router.push('/dashboard');
-    }
+    router.replace('/dashboard'); // Redirect without keeping '/' in history
   }, [router]);
 
-  return (
-    <div className="">
-      {/* Your content here */}
-    </div>
-  );
+  return null;
 }

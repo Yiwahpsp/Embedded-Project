@@ -47,6 +47,7 @@ export default function SignIn() {
 
     if (validateForm()) {
       // If form is valid, proceed with sign-in (e.g., make API call)
+      console.log('success')
       router.push('/dashboard') // Redirect to a dashboard or appropriate page after sign-in
     }
   }
@@ -91,6 +92,7 @@ export default function SignIn() {
           >
             Sign in
           </Button>
+          <Link href={'/auth/signup'} className='text-sm md:text-base'>Do not have an account? <span className='text-panorama-blue'>Sign up</span></Link>
         </div>
       </div>
     </div>

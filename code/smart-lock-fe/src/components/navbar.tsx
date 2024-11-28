@@ -33,7 +33,10 @@ const NavBar = () => {
   ];
 
   // Determine the active tab index based on the current route
-  const currentTab = actions.findIndex((action) => pathname?.startsWith(action.route));
+  const currentTab = actions.findIndex((action) => {
+    return pathname === action.route || pathname.startsWith(action.route + '/');
+  });
+
 
   const renderAction = (index: number, icon: React.JSX.Element, route: string) => (
     <div
@@ -48,6 +51,7 @@ const NavBar = () => {
           justifyContent: 'center',
           alignItems: 'center',
           padding: '12px',
+          borderRadius: '12px',
           border: '1px solid #061E3A',
           backgroundColor: currentTab === index ? '#061E3A' : '#fafafa',
           '& .MuiBottomNavigationAction-label': { color: currentTab === index ? '#fafafa' : '#061E3A' },
@@ -70,7 +74,6 @@ const NavBar = () => {
           alignItems: 'center',
           height: '100%',
         }}
-        showLabels
         value={currentTab >= 0 ? currentTab : false} // Ensure value is valid
         className="transition-all duration-300 ease-in-out"
       >

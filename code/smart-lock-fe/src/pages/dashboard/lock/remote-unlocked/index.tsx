@@ -58,7 +58,7 @@ export default function RemoteUnlockedPage() {
               label=""
               type="password"
               fullWidth
-              variant="outlined"
+              variant="standard"
               error={!!passwordError}
               helperText={passwordError}
               value={password}

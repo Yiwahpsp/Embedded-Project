@@ -1,5 +1,6 @@
 // FILE: src/pages/_app.tsx
 import "@/styles/globals.css";
+import { usePathname } from "next/navigation";
 import type { AppProps } from "next/app";
 import NavBar from "@/components/navbar";
 import { Inter, Kanit } from 'next/font/google';
@@ -14,6 +15,7 @@ const kanit = Kanit({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 export default function App({ Component, pageProps }: AppProps) {
+  const pathname = usePathname();
   return (
     <>
       <main className="flex justify-center items-start bg-secondary mx-auto w-full h-full min-h-screen">
@@ -21,9 +23,13 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
       </main>
-      <div className="flex justify-center items-center w-full">
-        <NavBar />
-      </div>
+      {
+        pathname.startsWith('/auth') ?
+          null :
+          <div className="flex justify-center items-center w-full">
+            <NavBar />
+          </div>
+      }
     </>
   );
 }
