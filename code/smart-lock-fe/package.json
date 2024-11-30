@@ -21,6 +21,7 @@
     "autoprefixer": "10.4.20",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
+    "firebase": "^11.0.2",
     "framer-motion": "^11.3.30",
     "next": "^15.0.3",
     "next-auth": "^4.23.2",

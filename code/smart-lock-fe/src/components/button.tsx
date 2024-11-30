@@ -5,7 +5,8 @@ export default function Button({
   className,
   onClick,
   type,
-  isSmall
+  isSmall,
+  disabled
 }: {
   variant: string,
   children: React.ReactNode,
@@ -13,7 +14,8 @@ export default function Button({
   className?: string,
   onClick?: React.MouseEventHandler<HTMLButtonElement>,
   type?: 'submit' | 'reset' | 'button' | undefined,
-  isSmall?: boolean
+  isSmall?: boolean,
+  disabled?: boolean
 }) {
   let style = 'border-panorama-blue bg-panorama-blue text-ambrosia-ivory'
 
@@ -30,15 +32,21 @@ export default function Button({
 
           <button
             type={type}
-            className={`mx-auto border-1 border max-w-lg rounded-2xl text-base md:text-lg py-2 px-4 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
+            className={`mx-auto border-1 border max-w-lg rounded-2xl text-base md:text-lg py-2 px-4 flex flex-row justify-center items-center gap-1 
+              ${style} ${className} 
+              ${wFull ? 'w-full' : null}`}
             onClick={onClick}
+            disabled={disabled}
           >
             {children}
           </button>
           : <button
             type={type}
-            className={`mx-auto border-1 border max-w-lg rounded-2xl text-lg md:text-xl py-3 px-7 flex flex-row justify-center items-center gap-1 ${style} ${className} ${wFull ? 'w-full' : null}`}
+            className={`mx-auto border-1 border max-w-lg rounded-2xl text-lg md:text-xl py-3 px-7 flex flex-row justify-center items-center gap-1 
+              ${style} ${className} 
+              ${wFull ? 'w-full' : null}`}
             onClick={onClick}
+            disabled={disabled}
           >
             {children}
           </button>

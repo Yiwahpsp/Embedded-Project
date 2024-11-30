@@ -74,6 +74,7 @@ const NavBar = () => {
           alignItems: 'center',
           height: '100%',
         }}
+        showLabels
         value={currentTab >= 0 ? currentTab : false} // Ensure value is valid
         className="transition-all duration-300 ease-in-out"
       >
