@@ -4,20 +4,14 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 import { TextField } from '@mui/material'
-
 import { createUser } from '@/firebase/auth'
-import { useAuth } from '@/contexts/authContext'
 import Button from '@/components/button'
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContentText from '@mui/material/DialogContentText'
+import { toast } from 'react-toastify'
 
 import { emailRegex } from '@/utils/validate-utils'
+import { DASHBOARD_ROUTE, SIGNIN_ROUTE } from '@/routes'
 
 export default function SignUP() {
-  const userLoggedIn = useAuth();
   const router = useRouter()
   const [loading, setLoading] = useState(false);
 
@@ -30,15 +24,6 @@ export default function SignUP() {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [confirmPasswordError, setConfirmPasswordError] = useState('')
-
-  const [dialogOpen, setDialogOpen] = useState(false)
-  const [dialogMessage, setDialogMessage] = useState('')
-
-  useEffect(() => {
-    if (userLoggedIn) {
-      router.push('/dashboard');
-    }
-  }, [userLoggedIn, router]);
 
   // Function to validate form
   const validateForm = () => {
@@ -79,119 +64,94 @@ export default function SignUP() {
       setLoading(true)
       try {
         await createUser(email, password)
+        toast.success('Account created successfully'), {
+          position: "top-center"
+        }
       } catch (error: any) {
         switch (error.code) {
           case "auth/email-already-in-use":
-            setEmailError("The email address is already in use by another account.");
+            return setEmailError("The email address is already in use by another account.");
           case "auth/invalid-email":
-            setEmailError("The email address is not valid.");
+            return setEmailError("The email address is not valid.");
           case "auth/weak-password":
-            setPasswordError("The password is too weak. Please use a stronger password.");
+            return setPasswordError("The password is too weak. Please use a stronger password.");
           case "auth/operation-not-allowed":
-            setDialogMessage("Email/password accounts are currently disabled.");
+            return (toast.error("Email/password accounts are currently disabled."), {
+              position: "top-center"
+            })
           default:
-            setDialogMessage("An unknown error occurred.");
+            return (toast.error("An unknown error occurred."), {
+              position: "top-center"
+            })
         }
-        setDialogOpen(true)
       } finally {
         setLoading(false)
+        router.push(DASHBOARD_ROUTE)
       }
     }
   }
 
   return (
     <>
-      {userLoggedIn && (router.push('/dashboard'))}
-      <div className="flex flex-col justify-start items-start gap-20 mx-auto mt-20 w-full max-w-sm">
-        <p className='w-full font-semibold text-4xl text-center md:text-5xl'>Smart Lock</p>
-        <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
-          <h1 className="font-semibold text-panorama-blue text-xl md:text-2xl">Create Your Account</h1>
-          <div className='flex flex-col gap-5 w-full'>
-            <TextField
-              required
-              id='email'
-              variant='standard'
-              label='Email'
-              className='w-full'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              error={!!emailError}
-              helperText={emailError}
-            />
-            <TextField
-              required
-              id='password'
-              variant='standard'
-              type='password'
-              label='Password'
-              className='w-full'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              error={!!passwordError}
-              helperText={passwordError}
-            />
-            <TextField
-              required
-              id='confirm-password'
-              variant='standard'
-              type='password'
-              label='Confirm Password'
-              className='w-full'
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              error={!!confirmPasswordError}
-              helperText={confirmPasswordError}
-            />
-          </div>
-          <div className='flex flex-col justify-start items-end gap-1 w-full'>
-            <Button
-              variant=''
-              onClick={handleSignUp}
-              wFull
-              disabled={loading}
-            >
-              {loading ? 'Signing up...' : 'Sign up'}
-            </Button>
-            <Link
-              href={'/auth/signin'}
-              className='text-sm md:text-base'
-            >Already have an account? <span className='text-panorama-blue'>Sign in</span></Link>
+      <div className='p-7 w-full'>
+        <div className="flex flex-col justify-start items-start gap-20 mx-auto mt-20 w-full max-w-sm">
+          <p className='w-full font-semibold text-4xl text-center md:text-5xl'>Smart Lock</p>
+          <div className='flex flex-col justify-start items-start gap-14 mx-auto w-full max-w-lg'>
+            <h1 className="font-semibold text-panorama-blue text-xl md:text-2xl">Create Your Account</h1>
+            <div className='flex flex-col gap-5 w-full'>
+              <TextField
+                required
+                id='email'
+                variant='standard'
+                label='Email'
+                className='w-full'
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={!!emailError}
+                helperText={emailError}
+              />
+              <TextField
+                required
+                id='password'
+                variant='standard'
+                type='password'
+                label='Password'
+                className='w-full'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!passwordError}
+                helperText={passwordError}
+              />
+              <TextField
+                required
+                id='confirm-password'
+                variant='standard'
+                type='password'
+                label='Confirm Password'
+                className='w-full'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                error={!!confirmPasswordError}
+                helperText={confirmPasswordError}
+              />
+            </div>
+            <div className='flex flex-col justify-start items-end gap-1 w-full'>
+              <Button
+                variant=''
+                onClick={handleSignUp}
+                wFull
+                disabled={loading}
+              >
+                {loading ? 'Signing up...' : 'Sign up'}
+              </Button>
+              <Link
+                href={SIGNIN_ROUTE}
+                className='text-sm md:text-base'
+              >Already have an account? <span className='text-panorama-blue'>Sign in</span></Link>
+            </div>
           </div>
         </div>
       </div>
-
-      <Dialog
-        open={dialogOpen}
-        onClose={() => setDialogOpen(false)}
-        PaperProps={{
-          sx: {
-            borderRadius: '12px',
-            padding: '4px',
-            width: '100%',
-            maxWidth: '384px',
-            backgroundColor: '#fafafa',
-          }
-        }}
-      >
-        <DialogTitle className="font-semibold text-lg md:text-xl">
-          Sign Up Error
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText className="text-sm md:text-base">
-            {dialogMessage}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            wFull
-            variant="secondary"
-            onClick={() => setDialogOpen(false)}
-            isSmall
-          >
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   )
 } 
