@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+
 import { TextField } from '@mui/material';
 
 import { auth } from '../../../../firebase';
@@ -13,10 +14,8 @@ import { emailRegex } from '@/utils/validate-utils';
 import { DASHBOARD_ROUTE, SIGNUP_ROUTE } from '@/routes';
 
 export default function SignIn() {
-  console.log(auth.config)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const redirect = '/dashboard';
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,7 +49,7 @@ export default function SignIn() {
     if (validateForm()) {
       setLoading(true);
       try {
-        await signInUser(email, password);
+        await signInUser(email.toLocaleLowerCase().trim(), password.trim());
         toast.success("User signed in successfully"),{
           position: 'top-center'
         }
@@ -86,7 +85,7 @@ export default function SignIn() {
                 label='Email'
                 className='w-full'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLocaleLowerCase().trim())}
                 error={!!emailError}
                 helperText={emailError}
               />
@@ -98,7 +97,7 @@ export default function SignIn() {
                 label='Password'
                 className='w-full'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value.trim())}
                 error={!!passwordError}
                 helperText={passwordError}
               />

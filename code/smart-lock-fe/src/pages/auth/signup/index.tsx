@@ -63,7 +63,7 @@ export default function SignUP() {
     if (validateForm()) {
       setLoading(true)
       try {
-        await createUser(email, password)
+        await createUser(email.toLocaleLowerCase().trim(), password.trim())
         toast.success('Account created successfully'), {
           position: "top-center"
         }
@@ -106,7 +106,7 @@ export default function SignUP() {
                 label='Email'
                 className='w-full'
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.toLocaleLowerCase().trim())}
                 error={!!emailError}
                 helperText={emailError}
               />
@@ -118,7 +118,7 @@ export default function SignUP() {
                 label='Password'
                 className='w-full'
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value.trim())}
                 error={!!passwordError}
                 helperText={passwordError}
               />
@@ -130,7 +130,7 @@ export default function SignUP() {
                 label='Confirm Password'
                 className='w-full'
                 value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                onChange={(e) => setConfirmPassword(e.target.value.trim())}
                 error={!!confirmPasswordError}
                 helperText={confirmPasswordError}
               />

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import { auth, firestore } from "../../../firebase";
 import { signOutUser } from "@/firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,19 +11,27 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import Button from "@/components/button";
-
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
-import { emailRegex } from "@/utils/validate-utils";
+import Button from "@/components/button";
+import { SIGNIN_ROUTE } from "@/routes";
+
+interface FormData {
+  new_password: string;
+}
 
 export default function ProfilePage() {
   const router = useRouter();
+  const [user, setUser] = useState<any>(null);
   const [userData, setUserData] = useState<any>(null);
 
   const [email, setEmail] = useState('');
-  const [emailError, setEmailError] = useState<string>('');
+  const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState<string>('');
 
+  const [seePassword, setSeePassword] = useState<boolean>(false);
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [isSignout, setIsSignout] = useState<boolean>(false);
 
@@ -35,37 +43,44 @@ export default function ProfilePage() {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
               console.log("Document data:", docSnap.data());
+              setUser(user);
               setUserData(docSnap.data());
               setEmail(docSnap.data().email);
+              setPassword(docSnap.data().password);
             } else {
               console.log("No such document!");
             }
           } else {
             // If no user is logged in, redirect to sign-in page
-            router.push("/auth/signin");
+            router.push(SIGNIN_ROUTE);
           }
         });
       };
   
       fetchUser();
-    }, [router]);
+    }, []);
 
-  // Function to handle email change and validation
-  const handleEmailSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // Function to handle Password change and validation
+  const handleEditPassword = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries((formData as any).entries());
-    const email = formJson.email as string;
+    const newPassword = formJson.password;
 
-    // Email validation
-    if (!emailRegex.test(email)) {
-      setEmailError('Invalid email address');
-      return;
+    // Password validation
+    if (newPassword.length < 6) {
+      return setPasswordError('Password must be at least 6 characters')
     } else {
-      setEmailError('');
+      setPasswordError('')
     }
 
-    setEmail(email);
+    const docRef = doc(firestore, "Users", user.uid);
+    await updateDoc(docRef, {
+      password: newPassword
+    })
+
+    setPassword(newPassword);
+    setSeePassword(false);
     setIsEditOpen(false);
   };
 
@@ -93,15 +108,41 @@ export default function ProfilePage() {
                   <p className="font-semibold text-xl md:text-2xl">Email:</p>
                   <div className="flex flex-row justify-between items-center gap-1 w-full">
                     <p className="text-base md:text-lg">{email}</p>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setEmailError(''); // Reset email error when opening the dialog
-                        setIsEditOpen(true);
-                      }}
-                    >
-                      <EditIcon sx={{ fontSize: 20 }} />
-                    </button>
+                  </div>
+                </div>
+                <div className="flex flex-col justify-start items-start gap-1 w-full">
+                  <p className="font-semibold text-xl md:text-2xl">Password:</p>
+                  <div className="flex flex-row justify-between items-center gap-1 w-full">
+                    {
+                      seePassword ?
+                        <p className="text-base md:text-lg">{password}</p>
+                        :
+                        <p className="text-base md:text-lg">{'*'.repeat(password.length)}</p>
+                    }
+                    <div className="flex items-center gap-5">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setSeePassword(!seePassword);
+                        }}
+                      >
+                        {
+                          seePassword ?
+                            <VisibilityIcon sx={{ fontSize: 20 }} />
+                            :
+                            <VisibilityOffIcon sx={{ fontSize: 20 }} />
+                        }
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setPasswordError(''); // Reset email error when opening the dialog
+                          setIsEditOpen(true);
+                        }}
+                      >
+                        <EditIcon sx={{ fontSize: 20 }} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -125,11 +166,11 @@ export default function ProfilePage() {
                 open={isEditOpen}
                 onClose={() => {
                   setIsEditOpen(false);
-                  setEmailError(''); // Reset email error when closing the dialog
+                  setPasswordError(''); // Reset email error when closing the dialog
                 }}
                 PaperProps={{
                   component: 'form',
-                  onSubmit: handleEmailSubmit,
+                  onSubmit: handleEditPassword,
                   sx: {
                     borderRadius: '12px',
                     padding: '4px',
@@ -143,20 +184,19 @@ export default function ProfilePage() {
                 <DialogTitle className="font-semibold text-lg md:text-xl">Change Email</DialogTitle>
                 <DialogContent>
                   <DialogContentText className="text-base">
-                    Please enter a new email.
+                    Please enter a new password.
                   </DialogContentText>
                   <TextField
-                    autoFocus
                     required
                     margin="dense"
-                    id="email"
-                    name="email"
+                    id="password"
+                    name="password"
                     label=""
-                    type="email"
+                    type="password"
                     fullWidth
                     variant="standard"
-                    error={!!emailError}
-                    helperText={emailError}
+                    error={!!passwordError}
+                    helperText={passwordError}
                   />
                 </DialogContent>
                 <DialogActions>
@@ -166,7 +206,7 @@ export default function ProfilePage() {
                     onClick={(e) => {
                       e.preventDefault();
                       setIsEditOpen(false);
-                      setEmailError(''); // Reset error on cancel
+                      setPasswordError(''); // Reset error on cancel
                     }}
                     isSmall
                   >
