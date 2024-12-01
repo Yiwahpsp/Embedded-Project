@@ -50,10 +50,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <main className="flex justify-center items-start bg-secondary mx-auto w-full h-full min-h-screen">
-      <div className="flex justify-center items-start w-full min-h-screen">
+      <div className="flex justify-center items-start mb-7 w-full min-h-screen">
         <Component {...pageProps} />
-        {!isAuthRoute && <NavBar />}
       </div>
+        {!isAuthRoute && <NavBar />}
     </main>
   );
 }
