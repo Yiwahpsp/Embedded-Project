@@ -35,30 +35,30 @@ export default function ProfilePage() {
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
   const [isSignout, setIsSignout] = useState<boolean>(false);
 
-    useEffect(() => {
-      const fetchUser = () => {
-        auth.onAuthStateChanged(async (user) => {
-          if (user) {
-            const docRef = doc(firestore, "Users", user.uid);
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-              console.log("Document data:", docSnap.data());
-              setUser(user);
-              setUserData(docSnap.data());
-              setEmail(docSnap.data().email);
-              setPassword(docSnap.data().password);
-            } else {
-              console.log("No such document!");
-            }
+  useEffect(() => {
+    const fetchUser = () => {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          const docRef = doc(firestore, "Users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            console.log("Document data:", docSnap.data());
+            setUser(user);
+            setUserData(docSnap.data());
+            setEmail(docSnap.data().email);
+            setPassword(docSnap.data().password);
           } else {
-            // If no user is logged in, redirect to sign-in page
-            router.push(SIGNIN_ROUTE);
+            console.log("No such document!");
           }
-        });
-      };
-  
-      fetchUser();
-    }, []);
+        } else {
+          // If no user is logged in, redirect to sign-in page
+          router.push(SIGNIN_ROUTE);
+        }
+      });
+    };
+
+    fetchUser();
+  }, []);
 
   // Function to handle Password change and validation
   const handleEditPassword = async (event: React.FormEvent<HTMLFormElement>) => {

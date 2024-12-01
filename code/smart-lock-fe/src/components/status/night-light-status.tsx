@@ -1,85 +1,99 @@
-import React, { useState } from 'react';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import { border, borderColor, styled } from '@mui/system';
+'use client'
+import React, { useState, useEffect } from 'react';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import LightbulbIcon from '@mui/icons-material/Lightbulb';
 
+import { getNightLightStatus, updateNightLightStatus } from '@/api/night-light';
+
+interface stateProp {
+  display: string;
+  value: number;
+}
+
 const NightLightStatus = ({
-  status,
-  handleChange
+  disabled
 }: {
-  status: boolean,
-  handleChange?: (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => void
+  disabled: boolean;
 }) => {
+  const [state, setState] = useState<number>(2);
+
+  const allStates = {
+    0: {
+      display: 'always off',
+      value: 0,
+    },
+    1: {
+      display: 'always on',
+      value: 1,
+    },
+    2: {
+      display: 'auto',
+      value: 2,
+    },
+  }
+
+  const fetchNightLight = async () => {
+    const nightLightData = await getNightLightStatus();
+    if (nightLightData) {
+      setState(nightLightData);
+    } else {
+      setState(2);
+    }
+  };
+
+  const handleChangeNightLight = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    const value = parseInt(event.currentTarget.value);
+    const response = await updateNightLightStatus(value);
+    if (!response) {
+      return;
+    }
+    fetchNightLight();
+  }
+
+  useEffect(() => {
+    fetchNightLight();
+  }, []);
+
   return (
     <div
-      className={`flex flex-row justify-between items-center w-full rounded-xl p-4 border-panorama-blue 
-        ${status
-          ? 'bg-panorama-blue'
-          : 'bg-ambrosia-ivory border'
-        }`}
-    >
-      <div
-        className={`flex flex-row items-center gap-1 ${status ? 'text-ambrosia-ivory' : 'text-panorama-blue'}`}
-      >
-        <LightbulbIcon sx={{ fontSize: 32 }} />
-        <p className='line-clamp-1 w-full font-semibold text-pretty text-xl sm:text-2xl'>
-          Night Light
-        </p>
+      className={`flex flex-col gap-5 justify-between items-start w-full rounded-xl p-4 border-panorama-blue bg-ambrosia-ivory border text-panorama-blue`}>
+      <div className="flex items-center gap-1 font-semibold text-wrap text-xl md:text-2xl">
+        <LightbulbIcon sx={{ fontSize: 32, color: '#3ebdc6' }} />
+        <p className="line-clamp-1 overflow-hidden">Night Light</p>
       </div>
 
-      <Switch
-        checked={status}
-        onChange={handleChange}
+      <ButtonGroup
+        variant="outlined"
+        fullWidth
+        aria-label="Basic button group"
         sx={{
-          width: 51,
-          height: 32,
-          padding: 0,
-          scale: 0.8,
-          display: 'flex', // Helps to center the thumb perfectly
-          alignItems: 'center', // Vertically centers the thumb
-          '& .MuiSwitch-switchBase': {
-            padding: 2, // Adjusts the starting position
-            boxShadow: 'none',
-            '&.Mui-checked': {
-              transform: 'translateX(22px)', // Moves the thumb to the right edge when checked
-              '& .MuiSwitch-thumb': {
-                boxShadow: 'none',
-                backgroundColor: '#3ebdc6', // Thumb color when checked
-                border: '4px solid #fafafa', // Border for thumb when checked
-                opacity: 1,
-                transition: 'background-color 300ms ease, border-color 300ms ease'
-              },
-              '& + .MuiSwitch-track': {
-                backgroundColor: '#fafafa', // Track color when checked
-                border: '4px solid #fafafa', // Border for track when checked
-                opacity: 1,
-                transition: 'background-color 300ms ease, border-color 300ms ease'
-              },
-            },
-          },
-          '& .MuiSwitch-thumb': {
-            boxShadow: 'none',
-            transform: 'translateX(-15px) translateY(-14px)',
-            width: 28,
-            height: 28,
-            backgroundColor: '#fafafa', // Default thumb color when unchecked
-            border: '4px solid #3ebdc6', // Border for thumb when unchecked
-            opacity: 1,
-            transition: 'background-color 300ms ease, border-color 300ms ease'
-          },
-          '& .MuiSwitch-track': {
-            backgroundColor: '#fafafa', // Default track color when unchecked
-            borderRadius: 16, // Round the track
-            border: '4px solid #3ebdc6', // Border for track when unchecked
-            position: 'relative', // Ensures proper alignment with thumb
-            opacity: 1,
-            transition: 'background-color 300ms ease, border-color 300ms ease'
-          },
+          borderColor: '#3ebdc6',
         }}
-      />
+      >
+        {Object.values(allStates).map((item: stateProp, index: number) => (
+          <Button
+            key={index}
+            disabled={disabled}
+            value={item.value}
+            onClick={handleChangeNightLight}
+            sx={{
+              backgroundColor: state === index ? '#3ebdc6' : 'transparent',
+              color: state === index ? '#fff' : '#3ebdc6',
+              borderColor: '#3ebdc6',
+              '&:hover': {
+                backgroundColor: state === index ? '#3ebdc6' : '#e0f7fa',
+              },
+              padding: '8px 0px',
+            }}
+          >
+            <p className="font-semibold text-sm md:text-base">{item.display}</p>
+          </Button>
+        ))}
+      </ButtonGroup>
     </div>
   );
 };
 
 export default NightLightStatus;
-

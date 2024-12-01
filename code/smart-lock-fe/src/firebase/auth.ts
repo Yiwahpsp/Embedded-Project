@@ -13,6 +13,13 @@ export const createUser = async (email: string, password: string) => {
       });
     }
     console.log("User created:", response);
+    if (user?.uid) {
+      await setDoc(doc(firestore, "Lock", user.uid), {
+        name: 'lock',
+        location: '-',
+        lock: true,
+      });
+    }
     return response;
   } catch (error) {
     console.error("Error creating user:", error);

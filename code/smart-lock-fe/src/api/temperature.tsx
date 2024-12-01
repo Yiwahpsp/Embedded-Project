@@ -1,6 +1,6 @@
-export async function getHumid() {
+export async function getTemp() {
     try {
-        const response = await fetch('https://blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V1')
+        const response = await fetch('https://sgp1.blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V0')
         if (!response) {
             return null;
         }

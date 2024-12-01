@@ -28,13 +28,13 @@ export default function LockStatus({
       {status !== undefined ? (
         <div className="flex flex-col flex-wrap justify-start items-start gap-1 w-full">
           <div className="flex flex-row justify-between items-center w-full">
-            <p className="line-clamp-1 font-semibold text-pretty text-xl md:text-2xl">Name</p>
+            <p className="line-clamp-1 font-semibold text-pretty text-xl md:text-2xl">Your Lock</p>
             <ReportGmailerrorredIcon className='md:scale-125' sx={{ fontSize: 24 }} />
           </div>
-          <div className="flex flex-row justify-start items-end gap-1">
+          {/* <div className="flex flex-row justify-start items-end gap-1">
             <LocationOnIcon className='md:scale-125' sx={{ fontSize: 24 }} />
             <p className="line-clamp-1 text-base text-pretty md:text-lg">location</p>
-          </div>
+          </div> */}
         </div>
       ) : null}
 

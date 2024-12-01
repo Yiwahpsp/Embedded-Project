@@ -1,6 +1,6 @@
-export async function getLight() {
+export async function getHumid() {
     try {
-        const response = await fetch('https://blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V3')
+        const response = await fetch('https://sgp1.blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V1')
         if (!response) {
             return null;
         }

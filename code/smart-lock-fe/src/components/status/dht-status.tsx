@@ -4,9 +4,14 @@ import OpacityIcon from '@mui/icons-material/Opacity';
 interface DHTStatusProps {
   type: 'Temperature' | 'Humidity'; // Restrict type to valid keys
   num: number;
+  disabled: boolean;
 }
 
-export default function DHTStatus({ type, num }: DHTStatusProps) {
+export default function DHTStatus({
+  type,
+  num,
+  disabled
+}: DHTStatusProps) {
   const statusConfig: Record<string, { logo: React.ElementType; ty: string }> = {
     Temperature: { logo: ThermostatIcon, ty: '°C' },
     Humidity: { logo: OpacityIcon, ty: '%' },
@@ -28,7 +33,9 @@ export default function DHTStatus({ type, num }: DHTStatusProps) {
     >
       <div className="flex items-center gap-1 font-semibold text-wrap text-xl md:text-2xl">
         <Icon sx={{ fontSize: 32 }} />
-        <p className='line-clamp-1 overflow-hidden'>{type === 'Temperature' ? 'Temp' : 'Humid' }</p>
+        <div className='flex flex-col gap-0'>
+          <p className='line-clamp-1 overflow-hidden'>{type === 'Temperature' ? 'Temp' : 'Humid'}</p>
+        </div>
       </div>
       <div className="flex flex-grow justify-center items-center w-full font-semibold text-3xl text-center md:text-4xl">
         {num} {ty}
