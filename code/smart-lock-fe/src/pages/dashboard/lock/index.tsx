@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Button from "@/components/button";
 
+
 export default function LockPage() {
   const router = useRouter();
   const [name, setName] = useState('Name');
@@ -67,8 +68,14 @@ export default function LockPage() {
           >
             Remote Unlocked
           </Button>
+           
+     
+       
         </div>
       </div>
+
+    
+     
     </div>
   )
 }

@@ -50,14 +50,3 @@ function AuthWrapper({
   );
 }
 
-export default function App({ Component, pageProps }: AppProps) {
-  return (
-    <AuthProvider>
-      <main className="flex justify-center items-start bg-secondary mx-auto w-full h-full min-h-screen">
-        <AuthWrapper>
-          <Component {...pageProps} />
-        </AuthWrapper>
-      </main>
-    </AuthProvider>
-  );
-}
