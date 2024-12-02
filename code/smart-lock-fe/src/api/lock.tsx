@@ -1,5 +1,5 @@
 export async function getLockStatus() {
-  const url = `https://blynk.cloud/external/api/token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V5=1`;
+  const url = `https://blynk.cloud/external/api/get?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw&V5`;
   try {
     const response = await fetch(url, { method: "GET" });
     if (response.ok) {
@@ -14,7 +14,7 @@ export async function getLockStatus() {
 }
 
 export async function updateLockStatus() {
-  const url = `https://blynk.cloud/external/api/update?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V5=${1}`;
+  const url = `https://blynk.cloud/external/api/update?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw&V5=1`;
   try {
     const response = await fetch(url, { method: "GET" });
     if (response.ok) {

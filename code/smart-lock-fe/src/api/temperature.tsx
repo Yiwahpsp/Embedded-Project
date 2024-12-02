@@ -1,6 +1,6 @@
 export async function getTemp() {
     try {
-        const response = await fetch('https://sgp1.blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V0')
+        const response = await fetch(`https://sgp1.blynk.cloud/external/api/get?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw&V0`)
         if (!response) {
             return null;
         }

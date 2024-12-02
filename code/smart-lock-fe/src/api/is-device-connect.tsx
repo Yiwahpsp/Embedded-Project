@@ -1,6 +1,6 @@
 export async function isDeviceConnected(): Promise<boolean> {
     try {
-        const response = await fetch('https://sgp1.blynk.cloud/external/api/isHardwareConnected?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR')
+        const response = await fetch(`https://sgp1.blynk.cloud/external/api/isHardwareConnected?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw`)
         if (!response) {
             return false;
         }

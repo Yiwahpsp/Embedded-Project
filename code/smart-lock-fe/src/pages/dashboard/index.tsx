@@ -27,7 +27,7 @@ export default function DashboardPage() {
   const fetchTemperature = async () => {
     const tempData = await getTemp();
     if (tempData) {
-      setTemperature(tempData);  // Set the temperature value returned from getTemp
+      setTemperature(parseInt(tempData));  // Set the temperature value returned from getTemp
     } else {
       setTemperature(0);
     }
@@ -36,7 +36,7 @@ export default function DashboardPage() {
   const fetchHumidity = async () => {
     const humidData = await getHumid();
     if (humidData) {
-      setHumidity(humidData);  // Set the temperature value returned from getTemp
+      setHumidity(parseInt(humidData));  // Set the temperature value returned from getTemp
     } else {
       setHumidity(0);
     }
@@ -66,12 +66,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      fetchDeviceConnection();
-      if (!deviceConnected) return;
       fetchTemperature();
       fetchHumidity();
       fetchLockStatus();
-    }, 2000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
@@ -102,7 +100,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="col-span-full">
-          <Button variant="secondary" className="flex flex-col" disabled={!deviceConnected} wFull onClick={(e) => { e.preventDefault(); router.push("/dashboard/camera") }}>
+          <Button variant="secondary" className="flex flex-col" wFull onClick={(e) => { e.preventDefault(); router.push("/dashboard/camera") }}>
             <p className="font-semibold text-base md:text-lg">
               Go to camera
             </p>

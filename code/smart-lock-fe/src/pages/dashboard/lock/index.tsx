@@ -10,6 +10,7 @@ import { auth, firestore } from "../../../../firebase";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { SIGNIN_ROUTE } from "@/routes";
 
+
 export default function LockPage() {
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
@@ -76,8 +77,14 @@ export default function LockPage() {
           >
             Remote Unlocked
           </Button>
+           
+     
+       
         </div>
       </div>
+
+    
+     
     </div>
   )
 }
