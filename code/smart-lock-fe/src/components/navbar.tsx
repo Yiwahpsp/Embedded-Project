@@ -9,6 +9,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 import VerticalSplitIcon from '@mui/icons-material/VerticalSplit';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { DASHBOARD_ROUTE, LOG_ROUTE, PROFILE_ROUTE } from '@/routes';
 
 const NavBar = () => {
   const router = useRouter();
@@ -27,9 +28,9 @@ const NavBar = () => {
 
   // Define actions with routes and icons
   const actions = [
-    { icon: <SpaceDashboardIcon />, route: '/dashboard' },
-    { icon: <VerticalSplitIcon />, route: '/log' },
-    { icon: <SettingsIcon />, route: '/profile' },
+    { icon: <SpaceDashboardIcon />, route: DASHBOARD_ROUTE },
+    { icon: <VerticalSplitIcon />, route: LOG_ROUTE },
+    { icon: <SettingsIcon />, route: PROFILE_ROUTE },
   ];
 
   // Safe handling of `pathname` for determining the active tab

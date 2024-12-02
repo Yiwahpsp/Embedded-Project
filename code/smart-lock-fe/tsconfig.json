@@ -33,7 +33,7 @@
     "**/*.tsx",
     "next-env.d.ts",
     ".next/types/**/*.ts"
-, "firebase.js"  ],
+, "firebase.js", "src/middleware.ts"  ],
   "exclude": [
     "node_modules"
   ]

@@ -34,8 +34,8 @@ class FirebaseDatabase {
   +void storeUser(userId: String, email: String)
 }
 
-' BlynkDatabase Class - เก็บข้อมูล Real-time เช่น Sensor Data
-class BlynkDatabase {
+' blynkDatabase Class - เก็บข้อมูล Real-time เช่น Sensor Data
+class blynkDatabase {
   +String blynkId
   +void storeSensorData(sensorId: String, data: String)
   +void storeLockStatus(lockId: String, status: boolean)
@@ -54,9 +54,9 @@ class Log {
 User "1..1" -- "1..1" SmartLock : owns >
 SmartLock "1" -- "1" FingerprintSensor : uses >
 SmartLock "1" -- "1" FirebaseDatabase : stores in >
-SmartLock "1" -- "1" BlynkDatabase : stores in >
+SmartLock "1" -- "1" blynkDatabase : stores in >
 FingerprintSensor "1" -- "0..*" Log : records >
 FirebaseDatabase "1" -- "0..*" Log : stores >
-BlynkDatabase "1" -- "0..*" SensorData : stores >
+blynkDatabase "1" -- "0..*" SensorData : stores >
 
 @enduml

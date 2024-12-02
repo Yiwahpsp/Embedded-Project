@@ -5,7 +5,7 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 export default function LogPage() {
   const router = useRouter()
   return (
-    <div className="flex flex-col justify-center items-start gap-16 px-4 py-8 text-primary">
+    <div className="flex flex-col justify-center items-start gap-16 px-4 py-8 w-full text-primary">
       <div className="relative flex flex-col w-full">
         <button
           className="top-0 left-0 absolute"
