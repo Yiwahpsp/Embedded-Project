@@ -1,22 +1,28 @@
 'use client'
 import { useState } from "react"
 import { useEffect } from 'react';
+import { useRouter } from "next/navigation";
+
+import Button from "@/components/button";
 import DHTStatus from "@/components/status/dht-status"
 import LockStatus from "@/components/status/lock-status"
 import NightLightStatus from "@/components/status/night-light-status"
+import { auth, firestore } from "../../../firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 import { getTemp } from '@/api/temperature'
 import { getHumid } from "../../api/humidity";
+import { getLockStatus } from "@/api/lock";
 import { isDeviceConnected } from "@/api/is-device-connect";
+import { SIGNIN_ROUTE } from "@/routes";
 
 export default function DashboardPage() {
+  const [user, setUser] = useState<any>(null);
+  const [unlockStatus, setUnlockStatus] = useState<boolean>(false);
   const [deviceConnected, setDeviceConnected] = useState<boolean>(false);
-  const [nightLight, setNightLight] = useState<boolean>(false)
   const [temperature, setTemperature] = useState<number>(0);
   const [Humidity, setHumidity] = useState<number>(0);
-  const handleNightLightChange = (event: React.ChangeEvent<HTMLInputElement>, checked: boolean) => {
-    setNightLight(checked);
-  };
+  const router = useRouter();
 
   const fetchTemperature = async () => {
     const tempData = await getTemp();
@@ -36,6 +42,15 @@ export default function DashboardPage() {
     }
   };
 
+  const fetchLockStatus = async () => {
+    const lockState = await getLockStatus();
+    if (lockState) {
+      setUnlockStatus(lockState);
+    } else {
+      setUnlockStatus(false);
+    }
+  }
+
   const fetchDeviceConnection = async () => {
     const deviceConnection = await isDeviceConnected();
     setDeviceConnected(deviceConnection);
@@ -46,6 +61,7 @@ export default function DashboardPage() {
     if (!deviceConnected) return;
     fetchTemperature();
     fetchHumidity();
+    fetchLockStatus();
   }, []);
 
   useEffect(() => {
@@ -54,6 +70,7 @@ export default function DashboardPage() {
       if (!deviceConnected) return;
       fetchTemperature();
       fetchHumidity();
+      fetchLockStatus();
     }, 2000);
 
     return () => clearInterval(interval);
@@ -70,7 +87,7 @@ export default function DashboardPage() {
         }
         {/* Lock Status */}
         <div className="col-span-full">
-          <LockStatus status={true} />
+          <LockStatus status={!unlockStatus} />
         </div>
 
         {/* Temperature */}
@@ -81,7 +98,18 @@ export default function DashboardPage() {
 
         {/* Light Section */}
         <div className="col-span-full">
-          <NightLightStatus disabled={false} />
+          <NightLightStatus disabled={!deviceConnected} />
+        </div>
+
+        <div className="col-span-full">
+          <Button variant="secondary" className="flex flex-col" disabled={!deviceConnected} wFull onClick={(e) => { e.preventDefault(); router.push("/dashboard/camera") }}>
+            <p className="font-semibold text-base md:text-lg">
+              Go to camera
+            </p>
+            <p className="text-panorama-blue text-xs">
+              (same wifi with device)
+            </p>
+          </Button>
         </div>
       </div>
     </div>

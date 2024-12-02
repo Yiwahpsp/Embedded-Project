@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { auth, firestore } from '../../../../../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { updateLockStatus } from "@/api/lock";
 
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Button from '@/components/button';
@@ -38,7 +39,7 @@ export default function RemoteUnlockedPage() {
     fetchUser();
   }, []);
 
-  const handleRemoteUnlocked = () => {
+  const handleRemoteUnlocked = async () => {
     // Reset previous error
     setPasswordError('');
 
@@ -48,7 +49,7 @@ export default function RemoteUnlockedPage() {
     } else {
       setPasswordError('')
     }
-
+    await updateLockStatus();
     router.push('/dashboard');
   };
 

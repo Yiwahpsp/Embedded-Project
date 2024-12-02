@@ -5,6 +5,7 @@ export async function getNightLightStatus() {
             return null;
         }
         const data = await response.json();
+        console.log(data);
 
         return data;
     } catch (err) {
@@ -13,26 +14,32 @@ export async function getNightLightStatus() {
     }
 }
 
-export async function updateNightLightStatus(status: number) {
+export const updateNightLightStatus = async (value: number): Promise<boolean> => {
     try {
-        const response = await fetch(`https://blynk.cloud/external/api/update?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V4=${status}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
+        const response = await fetch(
+            `https://blynk.cloud/external/api/update?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V4=${value}`,
+            {
+                method: 'GET',
             }
-        });
-
-        console.log(response);
+        );
 
         if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+            console.error(`Server Error: ${response.statusText}`);
+            return false;
         }
 
-        const data = await response.json();
-        return { success: true, data };
+        // Check if response has content
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            const data = await response.json();
+            console.log('Update Successful:', data);
+        } else {
+            console.warn('No JSON response received.');
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        return false;
     }
-    catch (err) {
-        console.log(err);
-        return null;
-    }
-}
+};

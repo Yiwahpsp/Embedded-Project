@@ -35,7 +35,7 @@ const NightLightStatus = ({
 
   const fetchNightLight = async () => {
     const nightLightData = await getNightLightStatus();
-    if (nightLightData) {
+    if (nightLightData === 0 || nightLightData === 1 || nightLightData === 2) {
       setState(nightLightData);
     } else {
       setState(2);

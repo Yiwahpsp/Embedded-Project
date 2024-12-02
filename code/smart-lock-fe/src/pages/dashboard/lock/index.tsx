@@ -61,16 +61,6 @@ export default function LockPage() {
             wFull
             onClick={(e) => {
               e.preventDefault();
-              router.push('/dashboard/lock/edit')
-            }}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="secondary"
-            wFull
-            onClick={(e) => {
-              e.preventDefault();
               router.push('/dashboard/lock/finger-print')
             }}
           >
