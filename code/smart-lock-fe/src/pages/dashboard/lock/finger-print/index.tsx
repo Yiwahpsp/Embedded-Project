@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Button from '@/components/button';
@@ -12,6 +12,14 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { createFingerprint, deleteFingerprint } from '@/api/fingerprint';
+
+interface Fingerprint {
+  id: string;
+  name: string;
+}
+import { firestore } from '../../../../../firebase';
+import { doc, setDoc, deleteDoc, getDoc, Firestore, collection, getDocs } from 'firebase/firestore';
 
 export default function FingerPrintPage() {
   const router = useRouter();
@@ -20,6 +28,8 @@ export default function FingerPrintPage() {
   const [isDeleteOpen, setIsDeleteOpen] = useState<boolean>(false);
   const [name, setName] = useState<string>('');
   const [nameError, setNameError] = useState<string>('');
+  const [fingerprints, setFingerprints] = useState<any[]>([]);
+  const [indexDelete, setIndexDelete] = useState<string>('');
 
   // Validation function for name input
   const validateName = () => {
@@ -31,28 +41,83 @@ export default function FingerPrintPage() {
     return true;
   };
 
-  const handleCreate = (e: React.FormEvent) => {
+  const generateRandomNumber = (min: number, max: number): number => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateName()) {
-      console.log('Creating fingerprint:', name);
-      setIsCreateOpen(false);
-      setName('');
+      try {
+        let unique = false;
+        let numberIndex: number = 0;
+        const maxAttempts = 10;
+        let attempts = 0;
+
+        while (!unique && attempts < maxAttempts) {
+          numberIndex = generateRandomNumber(1, 127);
+          const docRef = doc(firestore, "Fingerprints", numberIndex.toString());
+          const docSnap = await getDoc(docRef);
+          if (!docSnap.exists()) {
+            unique = true;
+          }
+          attempts++;
+        }
+
+        if (!unique) {
+          console.error("Failed to generate a unique fingerprint ID. Please try again.");
+          return;
+        }
+
+        await createFingerprint(numberIndex.toString());
+        await setDoc(doc(firestore, "Fingerprints", numberIndex.toString()), {
+          name: name,
+        });
+
+        console.log('Creating fingerprint:', name);
+        setIsCreateOpen(false);
+        setName('');
+      } catch (error) {
+        console.error("Error creating fingerprint:", error);
+      }
     }
   };
 
-  const handleEdit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (validateName()) {
-      console.log('Editing fingerprint:', name);
-      setIsEditOpen(false);
-      setName('');
-    }
-  };
+  // const handleEdit = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if (validateName()) {
+  //     console.log('Editing fingerprint:', name);
+  //     setIsEditOpen(false);
+  //     setName('');
+  //   }
+  // };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    await deleteFingerprint(indexDelete);
+    const fingerprintDoc = doc(firestore, "Fingerprints", indexDelete);
+    await deleteDoc(fingerprintDoc);
     console.log('Deleting fingerprint');
     setIsDeleteOpen(false);
+    setIndexDelete('');
   };
+
+  useEffect(() => {
+    const fetchFingerprints = async () => {
+      try {
+        const fingerprintsCol = collection(firestore, 'Fingerprints');
+        const snapshot = await getDocs(fingerprintsCol);
+        const fingerprintsData: Fingerprint[] = snapshot.docs.map(docSnap => ({
+          id: docSnap.id,
+          ...(docSnap.data() as Omit<Fingerprint, 'id'>),
+        }));
+        setFingerprints(fingerprintsData);
+      } catch (error) {
+        console.error("Error fetching fingerprints:", error);
+      }
+    };
+
+    fetchFingerprints();
+  }, []);
 
   return (
     <div className='w-full'>
@@ -89,47 +154,39 @@ export default function FingerPrintPage() {
           <table className="table-fixed w-full">
             <thead>
               <tr className="border border-t-0 border-r-0 border-b-2 border-l-0 text-primary">
-                <td className="py-2 w-4/6">
+                <td className="py-2 w-5/6">
                   <p className="font-semibold text-lg md:text-xl">Name</p>
                 </td>
-                <td className="py-2 w-1/6">
-                </td>
+
                 <td className="py-2 w-1/6">
                 </td>
               </tr>
             </thead>
             <tbody>
-              <tr className="border border-t-0 border-r-0 border-b-2 border-l-0 text-primary">
-                <td className="py-2 w-4/6">
-                  <p className="text-base md:text-lg">Name</p>
-                </td>
-                <td className="py-2">
-                  <div className="flex justify-center items-center w-full">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setIsEditOpen(true);
-                      }}
-                      className="mx-auto place-self-center"
-                    >
-                      <EditIcon sx={{ color: '#061e3a', fontSize: 20 }} />
-                    </button>
-                  </div>
-                </td>
-                <td className="py-2">
-                  <div className="flex justify-center items-center w-full">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setIsDeleteOpen(true);
-                      }}
-                      className="place-self-center"
-                    >
-                      <DeleteIcon sx={{ color: '#061e3a', fontSize: 20 }} />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+              {
+                fingerprints.map((fingerprint: Fingerprint) => (
+                  <tr key={fingerprint.id} className="border border-t-0 border-r-0 border-b-2 border-l-0 text-primary">
+                    <td className="py-2 w-5/6">
+                      <p className="text-base md:text-lg">{fingerprint.name}</p>
+                    </td>
+
+                    <td className="py-2">
+                      <div className="flex justify-center items-center w-full">
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setIndexDelete(fingerprint.id);
+                            setIsDeleteOpen(true);
+                          }}
+                          className="place-self-center"
+                        >
+                          <DeleteIcon sx={{ color: '#061e3a', fontSize: 20 }} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
@@ -185,56 +242,6 @@ export default function FingerPrintPage() {
         </DialogActions>
       </Dialog>
 
-      {/* Edit Dialog */}
-      <Dialog
-        open={isEditOpen}
-        onClose={() => {
-          setIsEditOpen(false);
-          setNameError('');
-        }}
-        PaperProps={{
-          component: 'form',
-          onSubmit: handleEdit,
-          sx: {
-            borderRadius: '12px',
-            padding: '4px',
-            width: '100%',
-            maxWidth: '384px',
-            backgroundColor: '#fafafa',
-          },
-        }}
-      >
-        <DialogTitle className="font-semibold text-lg md:text-xl">Edit User Fingerprint</DialogTitle>
-        <DialogContent>
-          <DialogContentText className="text-sm md:text-base">
-            Please enter a user fingerprint name
-          </DialogContentText>
-          <TextField
-            autoFocus
-            required
-            margin="dense"
-            id="name"
-            name="name"
-            label=""
-            type='text'
-            fullWidth
-            variant="standard"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            error={!!nameError}
-            helperText={nameError}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button variant='secondary' onClick={() => setIsEditOpen(false)} isSmall wFull>
-            Cancel
-          </Button>
-          <Button variant='' type="submit" isSmall wFull>
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
-
       {/* Delete Confirmation Dialog */}
       <Dialog
         open={isDeleteOpen}
@@ -267,3 +274,4 @@ export default function FingerPrintPage() {
     </div>
   );
 }
+
