@@ -102,7 +102,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="col-span-full">
-          <Button variant="secondary" className="flex flex-col" disabled={!deviceConnected} wFull onClick={(e) => { e.preventDefault(); router.push("/dashboard/camera") }}>
+          <Button variant="secondary" className="flex flex-col" wFull onClick={(e) => { e.preventDefault(); router.push("/dashboard/camera") }}>
             <p className="font-semibold text-base md:text-lg">
               Go to camera
             </p>

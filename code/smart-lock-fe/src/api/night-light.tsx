@@ -1,6 +1,6 @@
 export async function getNightLightStatus() {
     try {
-        const response = await fetch('https://sgp1.blynk.cloud/external/api/get?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V4')
+        const response = await fetch(`https://sgp1.blynk.cloud/external/api/get?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw&V4`)
         if (!response) {
             return null;
         }
@@ -17,7 +17,7 @@ export async function getNightLightStatus() {
 export const updateNightLightStatus = async (value: number): Promise<boolean> => {
     try {
         const response = await fetch(
-            `https://blynk.cloud/external/api/update?token=vXdbpLJhdWTQ5SSgZKoJJqFsorep2MKR&V4=${value}`,
+            `https://blynk.cloud/external/api/update?token=GkfMi5Ps6KQlrQahmVq0Ku_bqRewBTFw&V4=${value}`,
             {
                 method: 'GET',
             }
