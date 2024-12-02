@@ -49,15 +49,6 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-<<<<<<< HEAD
-    <div className="w-full min-h-screen">
-      {children}
-      {!isAuthRoute && <NavBar />}
-    </div>
-  );
-}
-
-=======
     <main className="flex justify-center items-start bg-secondary mx-auto w-full h-full min-h-screen">
       <div className="flex justify-center items-start mb-24 w-full max-w-lg min-h-screen">
         <Component {...pageProps} />
@@ -66,4 +57,3 @@ export default function App({ Component, pageProps }: AppProps) {
     </main>
   );
 }
->>>>>>> 02e56e76b6b1e1c354940729976450f57b03d67d
